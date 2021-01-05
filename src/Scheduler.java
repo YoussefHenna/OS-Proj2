@@ -41,7 +41,7 @@ public class Scheduler {
     }
 
     public static void scheduleShortestJobFirst(ArrayList<Pair<Integer, Process>> processes) {
-        System.out.println("Shortest Job First");
+        System.out.println("Scheduling using Shortest Job First");
         //IMPLEMENT HERE
     }
 
