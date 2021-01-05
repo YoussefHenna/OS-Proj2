@@ -1,6 +1,6 @@
-import javafx.util.Pair;
-
+import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Random;
 
 public class OperatingSystem {
@@ -11,11 +11,11 @@ public class OperatingSystem {
     public static final int TIME_UNIT_MS = 100;
 
 
-    //Returns a list of pairs
+    //Returns a list of pairs(map entries)
     //For each pair: key(first) is time of arrival, value(second) is the process itself
     //Everything is random
-    public static ArrayList<Pair<Integer,Process>> getProcesses(){
-        ArrayList<Pair<Integer,Process>> processes = new ArrayList<>();
+    public static ArrayList<Map.Entry<Integer,Process>> getProcesses(){
+        ArrayList<Map.Entry<Integer,Process>> processes = new ArrayList<>();
         Random rand = new Random();
         int min = 3; int max = 8;
         int numOfProc = rand.nextInt(max - min) + min;
@@ -26,11 +26,11 @@ public class OperatingSystem {
 
             max = 10;
             int timeOfArrival = rand.nextInt(max); //from 0 - 10
-            processes.add(new Pair<>(timeOfArrival, proc));
+            processes.add(new AbstractMap.SimpleImmutableEntry<>(timeOfArrival, proc));
         }
 
         System.out.println("Processes Generated: ");
-        for(Pair<Integer,Process> pair: processes){
+        for(Map.Entry<Integer,Process> pair: processes){
             Process p = pair.getValue();
             System.out.println("Process "+ p.getId() + ":");
             System.out.println("\tArriving at: "+pair.getKey());
@@ -47,21 +47,21 @@ public class OperatingSystem {
         System.out.println("------------------------------------------------------------------");
         System.out.println("--------------------------ROUND ROBIN-----------------------------");
         System.out.println("------------------------------------------------------------------");
-        ArrayList<Pair<Integer,Process>> processesForRR  = getProcesses();
+        ArrayList<Map.Entry<Integer,Process>> processesForRR  = getProcesses();
         Scheduler.scheduleRoundRobin(processesForRR);
 
 
         System.out.println("------------------------------------------------------------------");
         System.out.println("------------------FIRST COME FIRST SERVED-------------------------");
         System.out.println("------------------------------------------------------------------");
-        ArrayList<Pair<Integer,Process>> processesForFCFS  = getProcesses();
+        ArrayList<Map.Entry<Integer,Process>> processesForFCFS  = getProcesses();
         Scheduler.scheduleFirstComeFirstServed(processesForFCFS);
 
 
         System.out.println("------------------------------------------------------------------");
         System.out.println("-----------------------SHORTEST JOB FIRST-------------------------");
         System.out.println("------------------------------------------------------------------");
-        ArrayList<Pair<Integer,Process>> processesForSJF  = getProcesses();
+        ArrayList<Map.Entry<Integer,Process>> processesForSJF  = getProcesses();
         Scheduler.scheduleShortestJobFirst(processesForSJF);
 
 

@@ -1,5 +1,3 @@
-import javafx.util.Pair;
-
 import java.util.*;
 
 public class Scheduler {
@@ -8,7 +6,7 @@ public class Scheduler {
     /*
         HOW TO IMPLEMENT
 
-        You have a list of pairs in each method which are randomly generated
+        You have a list of pairs(map entries) in each method which are randomly generated
 
         each pair has a getKey() and getValue() method
             getKey -- returns the arrival time as integer
@@ -35,17 +33,17 @@ public class Scheduler {
          You can skip calling start() if you want, and just use resume() right away
 
      */
-    public static void scheduleFirstComeFirstServed(ArrayList<Pair<Integer, Process>> processes) {
+    public static void scheduleFirstComeFirstServed(ArrayList<Map.Entry<Integer,Process>> processes) {
         System.out.println("Scheduling using First Come First Served");
         //IMPLEMENT HERE
     }
 
-    public static void scheduleShortestJobFirst(ArrayList<Pair<Integer, Process>> processes) {
+    public static void scheduleShortestJobFirst(ArrayList<Map.Entry<Integer,Process>> processes) {
         System.out.println("Scheduling using Shortest Job First");
         //IMPLEMENT HERE
     }
 
-    public static void scheduleRoundRobin(ArrayList<Pair<Integer, Process>> processes) {
+    public static void scheduleRoundRobin(ArrayList<Map.Entry<Integer,Process>> processes) {
         Random rand = new Random();
         int min = OperatingSystem.TIME_UNIT;
         int max = 4 * OperatingSystem.TIME_UNIT;
@@ -60,8 +58,8 @@ public class Scheduler {
         int initSize = processes.size();
         do {
 
-            ArrayList<Pair<Integer, Process>> copy = (ArrayList<Pair<Integer, Process>>) processes.clone();
-            for (Pair<Integer, Process> pair : copy) {
+            ArrayList<Map.Entry<Integer,Process>> copy = (ArrayList<Map.Entry<Integer,Process>>) processes.clone();
+            for (Map.Entry<Integer,Process> pair : copy) {
                 if (pair.getKey() == currentTime) {
                     currentlyRunning.add(pair.getValue());
                     processes.remove(pair);
