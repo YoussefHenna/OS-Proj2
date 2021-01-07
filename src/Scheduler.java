@@ -33,17 +33,17 @@ public class Scheduler {
          You can skip calling start() if you want, and just use resume() right away
 
      */
-    public static void scheduleFirstComeFirstServed(ArrayList<Map.Entry<Integer,Process>> processes) {
+    public static void scheduleFirstComeFirstServed(AbstractMap<Integer,Process> processes) {
         System.out.println("Scheduling using First Come First Served");
         //IMPLEMENT HERE
     }
 
-    public static void scheduleShortestJobFirst(ArrayList<Map.Entry<Integer,Process>> processes) {
+    public static void scheduleShortestJobFirst(AbstractMap<Integer,Process> processes) {
         System.out.println("Scheduling using Shortest Job First");
         //IMPLEMENT HERE
     }
 
-    public static void scheduleRoundRobin(ArrayList<Map.Entry<Integer,Process>> processes) {
+    public static void scheduleRoundRobin(AbstractMap<Integer,Process> processes) {
         Random rand = new Random();
         int min = OperatingSystem.TIME_UNIT;
         int max = 4 * OperatingSystem.TIME_UNIT;
@@ -58,8 +58,7 @@ public class Scheduler {
         int initSize = processes.size();
         do {
 
-            ArrayList<Map.Entry<Integer,Process>> copy = (ArrayList<Map.Entry<Integer,Process>>) processes.clone();
-            for (Map.Entry<Integer,Process> pair : copy) {
+            for (Map.Entry<Integer,Process> pair : processes.entrySet()) {
                 if (pair.getKey() == currentTime) {
                     currentlyRunning.add(pair.getValue());
                     processes.remove(pair);
