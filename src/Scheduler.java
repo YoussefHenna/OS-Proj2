@@ -63,7 +63,7 @@ public class Scheduler {
             for (Map.Entry<Integer,Process> pair : processes.entrySet()) {
                 if (pair.getKey() == currentTime) {
                     currentlyRunning.add(pair.getValue());
-                    processes.remove(pair.getKey());
+                    processes.remove(pair);
                 }
             }
             Process current = currentlyRunning.peek();
