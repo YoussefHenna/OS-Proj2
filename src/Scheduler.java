@@ -56,12 +56,15 @@ public class Scheduler {
         Queue<Process> currentlyRunning = new LinkedList<>();
         int numComplete = 0;
         int initSize = processes.size();
+
+	AbstractMap<Integer,Process> copy = new HashMap<Integer,Process>(processes); //shallow clone of processes
+
         do {
 
-            for (Map.Entry<Integer,Process> pair : processes.entrySet()) {
+            for (Map.Entry<Integer,Process> pair : copy.entrySet()) {
                 if (pair.getKey() == currentTime) {
                     currentlyRunning.add(pair.getValue());
-                    processes.remove(pair);
+                    copy.remove(pair);
                 }
             }
             Process current = currentlyRunning.peek();
