@@ -57,14 +57,13 @@ public class Scheduler {
         int numComplete = 0;
         int initSize = processes.size();
 
-	AbstractMap<Integer,Process> copy = new HashMap<Integer,Process>(processes); //shallow clone of processes
 
         do {
 
-            for (Map.Entry<Integer,Process> pair : copy.entrySet()) {
+            for (Map.Entry<Integer,Process> pair : processes.entrySet()) {
                 if (pair.getKey() == currentTime) {
                     currentlyRunning.add(pair.getValue());
-                    copy.remove(pair.getKey());
+                    processes.remove(pair.getKey());
                 }
             }
             Process current = currentlyRunning.peek();
