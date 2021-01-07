@@ -1,7 +1,7 @@
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.Random;
 
 public class OperatingSystem {
@@ -16,7 +16,7 @@ public class OperatingSystem {
     //For each pair: key(first) is time of arrival, value(second) is the process itself
     //Everything is random
     public static AbstractMap<Integer,Process> getProcesses(){
-        AbstractMap<Integer,Process> processes = new HashMap<Integer,Process>();
+        AbstractMap<Integer,Process> processes = new ConcurrentHashMap<Integer,Process>();
         Random rand = new Random();
         int min = 3; int max = 8;
         int numOfProc = rand.nextInt(max - min) + min;
