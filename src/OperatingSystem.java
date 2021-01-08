@@ -17,14 +17,14 @@ public class OperatingSystem {
     public static ArrayList<Map.Entry<Integer,Process>> getProcesses(){
         ArrayList<Map.Entry<Integer,Process>> processes = new ArrayList<>();
         Random rand = new Random();
-        int min = 3; int max = 8;
+        int min = 3; int max = 8; //number of processes
         int numOfProc = rand.nextInt(max - min) + min;
 
         for(int i = 0; i < numOfProc; i++){
-            min = 4; max = 20;
+            min = 4; max = 20; //execution time 
             Process proc = new Process(i,rand.nextInt(max - min) + min);
 
-            max = 10;
+            max = 10; //time of arrival
             int timeOfArrival = rand.nextInt(max); //from 0 - 10
             processes.add(new AbstractMap.SimpleImmutableEntry<>(timeOfArrival, proc));
         }
@@ -49,10 +49,10 @@ public class OperatingSystem {
         System.out.println("------------------------------------------------------------------");
         ArrayList<Map.Entry<Integer,Process>> processesForRR  = getProcesses();
         Scheduler.scheduleRoundRobin(processesForRR);
-
+		
 
         System.out.println("------------------------------------------------------------------");
-        System.out.println("------------------FIRST COME FIRST SERVED-------------------------");
+        System.out.println("---------------------FIRST COME FIRST SERVED----------------------");
         System.out.println("------------------------------------------------------------------");
         ArrayList<Map.Entry<Integer,Process>> processesForFCFS  = getProcesses();
         Scheduler.scheduleFirstComeFirstServed(processesForFCFS);
