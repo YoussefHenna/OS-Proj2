@@ -103,8 +103,8 @@ public class Scheduler {
 
 			if (pair.getKey()==t){
 				runningProcs.add(pair.getValue());
-				pair.getValue().start();
 				pair.getValue().pause();
+				pair.getValue().start();
 
 			}
 
