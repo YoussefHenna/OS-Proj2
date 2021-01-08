@@ -43,13 +43,13 @@ public class Scheduler {
          int initSize = processes.size();
          do {
         	
-            ArrayList<Map.Entry<Integer,Process>> copy = (ArrayList<Map.Entry<Integer,Process>>) processes.clone();
-            for (Map.Entry<Integer,Process> pair: copy) {
+            for (Map.Entry<Integer,Process> pair: processes) {
                 if (pair.getKey() == currentTime) {
                     currentlyRunning.add(pair.getValue());
                     processes.remove(pair);
                 }
             }
+
             Process current = currentlyRunning.peek();
             if (current != null) {
                 if (current.getRemainingExecutionTime() == 0) {
