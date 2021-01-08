@@ -80,8 +80,62 @@ public class Scheduler {
     }
 
     public static void scheduleShortestJobFirst(ArrayList<Map.Entry<Integer,Process>> processes) {
+
         System.out.println("Scheduling using Shortest Job First");
-        //IMPLEMENT HERE
+	
+	Process currentProc = null;
+
+	int t = 0;
+	int numProcsComplete=0;
+	int numProcs=processes.size();
+
+	ArrayList<Process> runningProcs = new ArrayList<>();
+
+
+
+	while (numProcsComplete < numProcs){
+
+			
+		for (Map.Entry<Integer,Process> pair : processes){
+
+			if (pair.getKey()==t){
+				runningProcs.add(pair.getValue());
+				pair.getValue().start();
+				pair.getValue().pause();
+
+			}
+
+			if (currentProc!=null && currentProc.getRemainingExecutionTime()==0){
+				numProcsComplete++;
+				runningProcs.remove(currentProc);
+				currentProc=null;
+			}
+
+
+		}
+
+
+		for (Process proc : runningProcs){
+
+			if (currentProc==null){
+				currentProc=proc;
+				currentProc.resume();
+			}
+
+
+			else if (proc.getRemainingExecutionTime() < currentProc.getRemainingExecutionTime()){
+				currentProc.pause();
+				currentProc=proc;
+				currentProc.resume();
+			}
+
+		}
+
+	t++;
+
+	}
+
+
     }
 
     public static void scheduleRoundRobin(ArrayList<Map.Entry<Integer,Process>> processes) {

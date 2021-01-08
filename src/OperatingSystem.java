@@ -51,11 +51,11 @@ public class OperatingSystem {
         Scheduler.scheduleRoundRobin(processesForRR);
 		
 
-        System.out.println("------------------------------------------------------------------");
-        System.out.println("---------------------FIRST COME FIRST SERVED----------------------");
-        System.out.println("------------------------------------------------------------------");
-        ArrayList<Map.Entry<Integer,Process>> processesForFCFS  = getProcesses();
-        Scheduler.scheduleFirstComeFirstServed(processesForFCFS);
+//        System.out.println("------------------------------------------------------------------");
+//        System.out.println("---------------------FIRST COME FIRST SERVED----------------------");
+//        System.out.println("------------------------------------------------------------------");
+//        ArrayList<Map.Entry<Integer,Process>> processesForFCFS  = getProcesses();
+//        Scheduler.scheduleFirstComeFirstServed(processesForFCFS);
 
 
         System.out.println("------------------------------------------------------------------");
