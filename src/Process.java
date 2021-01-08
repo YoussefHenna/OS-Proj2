@@ -3,7 +3,7 @@ public class Process {
     private final int id;
     private final int timeTilCompletion;
     private int timeRan = 0;
-    private boolean isPaused = false;
+    private boolean isPaused = true;
     private Thread thread;
 
     /**

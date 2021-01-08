@@ -33,19 +33,18 @@ public class Scheduler {
          You can skip calling start() if you want, and just use resume() right away
 
      */
-    public static void scheduleFirstComeFirstServed(ArrayList<Map.Entry<Integer,Process>> processes) {
-    	System.out.println("Scheduling using First Come First Served");
-        
-    	 int currentTime = 0;
-         int currentRunningTimeUnits = 0;
-         Queue<Process> currentlyRunning = new LinkedList<>();
-         int numComplete = 0;
-         int initSize = processes.size();
-         do {
+    public static void scheduleFirstComeFirstServed(ArrayList<Map.Entry<Integer, Process>> processes) {
+        System.out.println("Scheduling using First Come First Served");
 
-	    ArrayList<Map.Entry<Integer,Process>> copy = (ArrayList<Map.Entry<Integer,Process>>) processes.clone();
+        int currentTime = 0;
+        Queue<Process> currentlyRunning = new LinkedList<>();
+        int numComplete = 0;
+        int initSize = processes.size();
+        do {
 
-            for (Map.Entry<Integer,Process> pair: copy) {
+            ArrayList<Map.Entry<Integer, Process>> copy = (ArrayList<Map.Entry<Integer, Process>>) processes.clone();
+
+            for (Map.Entry<Integer, Process> pair : copy) {
                 if (pair.getKey() == currentTime) {
                     currentlyRunning.add(pair.getValue());
                     processes.remove(pair);
@@ -56,92 +55,81 @@ public class Scheduler {
             Process current = currentlyRunning.peek();
             if (current != null) {
                 if (current.getRemainingExecutionTime() == 0) {
-                	   numComplete++;
-                       currentlyRunning.poll();
-                       Process newCurrent = currentlyRunning.peek();
-                       if (newCurrent != null) {
-                    	   newCurrent.start();
-                       }
-                       currentRunningTimeUnits = 0;
-                	} else if (currentRunningTimeUnits == 0) {
-                		current.pause();
-                		current.resume();
-                	
-                	}
-            	}
-         
+                    numComplete++;
+                    currentlyRunning.poll();
+                } else if (current.isPaused()) {
+                    current.resume();
+
+                }
+            }
+
             currentTime += OperatingSystem.TIME_UNIT;
-            currentRunningTimeUnits += OperatingSystem.TIME_UNIT;
             try {
                 Thread.sleep(OperatingSystem.TIME_UNIT_MS);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            
 
-        } while (numComplete < initSize); 
+
+        } while (numComplete < initSize);
     }
 
-    public static void scheduleShortestJobFirst(ArrayList<Map.Entry<Integer,Process>> processes) {
+    public static void scheduleShortestJobFirst(ArrayList<Map.Entry<Integer, Process>> processes) {
 
         System.out.println("Scheduling using Shortest Job First");
-	
-	Process currentProc = null;
 
-	int t = 0;
-	int numProcsComplete=0;
-	int numProcs=processes.size();
+        Process currentProc = null;
 
-	ArrayList<Process> runningProcs = new ArrayList<>();
+        int t = 0;
+        int numProcsComplete = 0;
+        int numProcs = processes.size();
 
-
-
-	while (numProcsComplete < numProcs){
-
-			
-		for (Map.Entry<Integer,Process> pair : processes){
-
-			if (pair.getKey()==t){
-				runningProcs.add(pair.getValue());
-				pair.getValue().pause();
-				pair.getValue().start();
-
-			}
-
-			if (currentProc!=null && currentProc.getRemainingExecutionTime()==0){
-				numProcsComplete++;
-				runningProcs.remove(currentProc);
-				currentProc=null;
-			}
+        ArrayList<Process> runningProcs = new ArrayList<>();
 
 
-		}
+        while (numProcsComplete < numProcs) {
 
 
-		for (Process proc : runningProcs){
+            for (Map.Entry<Integer, Process> pair : processes) {
 
-			if (currentProc==null){
-				currentProc=proc;
-				currentProc.resume();
-			}
+                if (pair.getKey() == t) {
+                    runningProcs.add(pair.getValue());
+                    pair.getValue().pause();
+                    pair.getValue().start();
+
+                }
+
+                if (currentProc != null && currentProc.getRemainingExecutionTime() == 0) {
+                    numProcsComplete++;
+                    runningProcs.remove(currentProc);
+                    currentProc = null;
+                }
 
 
-			else if (proc.getRemainingExecutionTime() < currentProc.getRemainingExecutionTime()){
-				currentProc.pause();
-				currentProc=proc;
-				currentProc.resume();
-			}
+            }
 
-		}
 
-	t++;
+            for (Process proc : runningProcs) {
 
-	}
+                if (currentProc == null) {
+                    currentProc = proc;
+                    currentProc.resume();
+                } else if (proc.getRemainingExecutionTime() < currentProc.getRemainingExecutionTime()) {
+                    currentProc.pause();
+                    currentProc = proc;
+                    currentProc.resume();
+                }
+
+            }
+
+            t++;
+
+        }
 
 
     }
 
-    public static void scheduleRoundRobin(ArrayList<Map.Entry<Integer,Process>> processes) {
+    public static void scheduleRoundRobin(ArrayList<Map.Entry<Integer, Process>> processes) {
         Random rand = new Random();
         int min = OperatingSystem.TIME_UNIT;
         int max = 4 * OperatingSystem.TIME_UNIT;
@@ -156,8 +144,8 @@ public class Scheduler {
         int initSize = processes.size();
         do {
 
-            ArrayList<Map.Entry<Integer,Process>> copy = (ArrayList<Map.Entry<Integer,Process>>) processes.clone();
-            for (Map.Entry<Integer,Process> pair: copy) {
+            ArrayList<Map.Entry<Integer, Process>> copy = (ArrayList<Map.Entry<Integer, Process>>) processes.clone();
+            for (Map.Entry<Integer, Process> pair : copy) {
                 if (pair.getKey() == currentTime) {
                     currentlyRunning.add(pair.getValue());
                     processes.remove(pair);
